@@ -42,6 +42,9 @@ exports.login = async (email, password) => {
         throw err;
     }
 
+    console.log(user)
+    console.log(user.user_id)
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
         const err = new Error("Invalid credentials");
@@ -50,7 +53,7 @@ exports.login = async (email, password) => {
     }
 
     const token = jwt.sign(
-        { userId: user.id },
+        { userId: user.user_id },
         config.jwtSecret,
         { expiresIn: "1h" }
     );
