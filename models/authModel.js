@@ -44,7 +44,7 @@ exports.createUser = async (
         const userResult = await client.query(
             `INSERT INTO users 
             (mail, password, name, surname, middle_name, username, phone, parents_phone, class_id, role)
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'user')
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'student')
             RETURNING user_id, mail, role`,
             [
                 mail,

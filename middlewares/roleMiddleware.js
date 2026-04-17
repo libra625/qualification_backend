@@ -3,12 +3,14 @@ const pool = require('../utils/db'); // your pg pool
 module.exports = (...allowedRoles) => {
     return async (req, res, next) => {
         try {
+            console.log(req.userId)
+            console.log('passed')
             if (!req.userId) {
                 return res.status(401).json({ message: 'Не авторизований' });
             }
 
             const result = await pool.query(
-                'SELECT role FROM users WHERE id = $1',
+                'SELECT role FROM users WHERE user_id = $1',
                 [req.userId]
             );
 

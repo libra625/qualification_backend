@@ -17,7 +17,7 @@ const corsOptions = {
 
 router.use(cors(corsOptions));
 
-router.get('/login', authController.login);
+router.post('/login', authController.login);
 router.post('/register', authController.register);
 
 module.exports = router;

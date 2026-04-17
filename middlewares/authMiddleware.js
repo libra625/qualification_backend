@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
         if (err) {
             return res.status(401).json({ message: 'Невірний токен' });
         }
-        req.userId = decoded.id;
+        req.userId = decoded.userId;
 
         const remainingTokenTime = decoded.exp - Math.floor(Date.now() / 1000);
 
