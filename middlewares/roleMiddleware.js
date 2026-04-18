@@ -3,8 +3,6 @@ const pool = require('../utils/db'); // your pg pool
 module.exports = (...allowedRoles) => {
     return async (req, res, next) => {
         try {
-            console.log(req.userId)
-            console.log('passed')
             if (!req.userId) {
                 return res.status(401).json({ message: 'Не авторизований' });
             }
@@ -21,8 +19,6 @@ module.exports = (...allowedRoles) => {
             const userRole = result.rows[0].role;
 
             if (!allowedRoles.includes(userRole)) {
-                console.log(userRole)
-                console.log(allowedRoles)
                 return res.status(403).json({ message: 'Доступ заборонено' });
             }
 
