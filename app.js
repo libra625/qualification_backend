@@ -7,6 +7,8 @@ require('dotenv').config();
 const authRouter = require('./routes/authRouter');
 const timetableRouter = require('./routes/timetableRouter')
 const consultationRouter = require('./routes/consultationRouter')
+const complainRouter = require('./routes/complainRouter')
+const counselingRouter = require('./routes/counselingRouter')
 
 const app = express();
 
@@ -20,6 +22,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/users', authRouter);
 app.use('/timetable', timetableRouter);
 app.use('/consultation', consultationRouter);
+app.use('/complain', complainRouter);
+app.use('/counseling', counselingRouter);
 
 app.on('listening', () => {
     console.log(`Listening on port ${port}`);

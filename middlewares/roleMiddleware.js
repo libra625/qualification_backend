@@ -21,6 +21,8 @@ module.exports = (...allowedRoles) => {
             const userRole = result.rows[0].role;
 
             if (!allowedRoles.includes(userRole)) {
+                console.log(userRole)
+                console.log(allowedRoles)
                 return res.status(403).json({ message: 'Доступ заборонено' });
             }
 
