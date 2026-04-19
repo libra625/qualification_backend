@@ -128,3 +128,29 @@ exports.disableUser = async (id) => {
 
     return result.rows[0];
 };
+
+exports.getAdminStats = async () => {
+    const result = await pool.query(`
+        SELECT
+            -- USERS
+            COUNT(*) FILTER (WHERE role = 'student' AND status = 'active') AS students,
+            COUNT(*) FILTER (WHERE role = 'teacher' AND status = 'active') AS teachers,
+
+            -- CONSULTATIONS
+            COUNT(*) FILTER (WHERE status = 'done') AS consultations_done,
+            COUNT(*) FILTER (WHERE status = 'planned') AS consultations_planned,
+
+            -- TEST RESULTS
+            (SELECT COUNT(*) FROM test_result) AS test_results,
+
+            -- COMPLAINS
+            (SELECT COUNT(*) FROM complain) AS complains,
+
+            -- COUNSELING
+            (SELECT COUNT(*) FROM counseling) AS counseling
+
+        FROM users;
+    `);
+
+    return result.rows[0];
+};

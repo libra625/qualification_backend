@@ -144,3 +144,8 @@ exports.updateUser = async (id, data) => {
 exports.disableUser = async (id) => {
     return await model.disableUser(id);
 };
+
+// STATS GENERAL
+exports.getStats = async () => {
+    return await model.getAdminStats();
+};

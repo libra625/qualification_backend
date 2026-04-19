@@ -21,18 +21,21 @@ router.use(cors(corsOptions));
 router.use(auth);
 
 // POST admin
-router.post('/users', checkRole('psychologist'), controller.createUser);
+router.post('/users', checkRole('admin'), controller.createUser);
 
 // GET all
-router.get('/users', checkRole('psychologist'), controller.getUsers);
+router.get('/users', checkRole('admin'), controller.getUsers);
 
 // GET one
-router.get('/users/:id', checkRole('psychologist'), controller.getUser);
+router.get('/users/:id', checkRole('admin'), controller.getUser);
 
 // UPDATE
-router.put('/users/:id', checkRole('psychologist'), controller.updateUser);
+router.put('/users/:id', checkRole('admin'), controller.updateUser);
 
 // DELETE
-router.delete('/users/:id', checkRole('psychologist'), controller.disableUser);
+router.delete('/users/:id', checkRole('admin'), controller.disableUser);
+
+// GET /admin/stats
+router.get('/stats', controller.getStats);
 
 module.exports = router;

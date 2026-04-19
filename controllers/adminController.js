@@ -129,3 +129,12 @@ exports.disableUser = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+exports.getStats = async (req, res) => {
+    try {
+        const stats = await service.getStats();
+        res.json(stats);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
