@@ -1,5 +1,19 @@
 const pool = require('../utils/db');
 
+const getSinglePsychologist = async (client) => {
+    const result = await client.query(
+        `SELECT psychologist_id
+         FROM psychologist
+         LIMIT 1`
+    );
+
+    if (result.rowCount === 0) {
+        throw new Error('No psychologist found in system');
+    }
+
+    return result.rows[0].psychologist_id;
+};
+
 exports.findUserByEmail = async (email) => {
     const result = await pool.query(
         `SELECT user_id, mail, password, role
@@ -57,6 +71,16 @@ exports.createUser = async (
                 parentsPhone,
                 classId
             ]
+        );
+
+        const userId = userResult.rows[0].user_id;
+        const psychologist_id = await getSinglePsychologist(client);
+
+        // 3. create electronic card + link to user
+        await client.query(
+            `INSERT INTO electronic_card (user_id, psychologist_id)
+             VALUES ($1, $2)`,
+            [userId, psychologist_id]
         );
 
         await client.query('COMMIT');

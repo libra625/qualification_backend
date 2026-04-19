@@ -51,6 +51,16 @@ exports.createUser = async (client, userData) => {
         ]
     );
 
+    // after insert user
+    const userId = result.rows[0].user_id;
+
+    // create electronic card
+    await client.query(
+        `INSERT INTO electronic_card (user_id, psychologist_id)
+     VALUES ($1, $2)`,
+        [userId, psychologist_id]
+    );
+
     return result.rows[0];
 };
 
