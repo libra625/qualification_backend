@@ -26,4 +26,8 @@ router.get('/', checkRole('psychologist'), Controller.getResult);
 
 router.get('/pending', checkRole('teacher', 'student'), Controller.getPendingTests);
 
+router.get('/detailed', checkRole('psychologist'), Controller.getDetailedResultFull);
+
+router.get('/by-test', checkRole('psychologist'), Controller.getTestResultsByTestId);
+
 module.exports = router;

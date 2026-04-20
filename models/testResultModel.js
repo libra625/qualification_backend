@@ -109,3 +109,58 @@ exports.getPendingTests = async (user_id) => {
 
     return result.rows;
 };
+
+exports.getTestResultsByTestId = async (test_id) => {
+    const result = await pool.query(
+        `SELECT 
+            tr.test_id,
+            tr.user_id,
+            tr.total_mark,
+            t.max_mark,
+            u.surname,
+            u.name,
+            u.middle_name
+         FROM test_result tr
+         JOIN users u ON u.user_id = tr.user_id
+         JOIN test t ON t.test_id = tr.test_id
+         WHERE tr.test_id = $1`,
+        [test_id]
+    );
+
+    return result.rows;
+};
+
+exports.getDetailedResultFull = async (user_id, test_id) => {
+    const result = await pool.query(
+        `SELECT 
+            q.question_id,
+            q.question,
+
+            a.answer_id,
+            a.answer,
+            a.mark,
+
+            aq.answer_id AS selected_answer_id,
+            aq.answer_text
+
+        FROM test_result tr
+
+        JOIN question q 
+            ON q.test_id = tr.test_id
+
+        LEFT JOIN answer a 
+            ON a.question_id = q.question_id
+
+        LEFT JOIN answered_question aq 
+            ON aq.question_id = q.question_id
+           AND aq.test_result_id = tr.test_result_id
+
+        WHERE tr.user_id = $1
+          AND tr.test_id = $2
+
+        ORDER BY q.question_id, a.answer_id`,
+        [user_id, test_id]
+    );
+
+    return result.rows;
+};

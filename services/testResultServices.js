@@ -8,7 +8,7 @@ const sendEmail = async (email, message) => {
         to: "18.12.17.moyo@gmail.com",
         subject: "Low test result",
         text: `This is a test email informing u of your ${message} `,
-        html: "<h1>This is a test email</h1>"
+        html: '<h1>This is a test email informing u of your ${message}</h1>'
     });
 };
 
@@ -95,4 +95,40 @@ exports.getResult = async (user_id, test_id) => {
 // PENDING TESTS
 exports.getPendingTests = async (user_id) => {
     return await Model.getPendingTests(user_id);
+};
+
+const formatDetailedResult = (rows) => {
+    const questionsMap = {};
+
+    for (const row of rows) {
+        if (!questionsMap[row.question_id]) {
+            questionsMap[row.question_id] = {
+                question_id: row.question_id,
+                question: row.question,
+                selected_answer_id: row.selected_answer_id,
+                answer_text: row.answer_text,
+                answers: []
+            };
+        }
+
+        if (row.answer_id) {
+            questionsMap[row.question_id].answers.push({
+                answer_id: row.answer_id,
+                answer: row.answer,
+                mark: row.mark
+            });
+        }
+    }
+
+    return Object.values(questionsMap);
+};
+
+exports.getDetailedResultFull = async (user_id, test_id) => {
+    const rows = await Model.getDetailedResultFull(user_id, test_id);
+
+    return formatDetailedResult(rows);
+};
+
+exports.getTestResultsByTestId = async (test_id) => {
+    return await Model.getTestResultsByTestId(test_id);
 };
