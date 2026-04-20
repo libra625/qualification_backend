@@ -4,6 +4,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/config" />
+      <excludeFolder url="file://$MODULE_DIR$/coverage" />
       <excludeFolder url="file://$MODULE_DIR$/coverage/lcov-report/qualification_backend/config" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
