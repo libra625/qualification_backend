@@ -12,6 +12,7 @@ const counselingRouter = require('./routes/counselingRouter')
 const adminRouter = require('./routes/adminRouter')
 const testRouter = require('./routes/testRouter')
 const testResultRouter = require('./routes/testResultRouter')
+const elctronicCardRouter = require('./routes/elctronicCardRouter')
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/counseling', counselingRouter);
 app.use('/admin', adminRouter);
 app.use('/test', testRouter);
 app.use('/result', testResultRouter);
+app.use('/card', elctronicCardRouter);
 
 app.on('listening', () => {
     console.log(`Listening on port ${port}`);

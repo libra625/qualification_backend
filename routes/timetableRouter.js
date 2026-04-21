@@ -25,8 +25,8 @@ router.use(auth);
 router.get('/get', checkRole('teacher', 'student', 'psychologist'), timetableController.getTimetable);
 
 // Only teachers can modify
-router.post('/create', checkRole('teacher'), timetableController.createTimetable);
+router.post('/create', checkRole('psychologist'), timetableController.createTimetable);
 
-router.put('/update/:id', checkRole('teacher'), timetableController.updateTimetable);
+router.put('/update/:id', checkRole('psychologist'), timetableController.updateTimetable);
 
 module.exports = router;
