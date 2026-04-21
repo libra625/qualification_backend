@@ -147,8 +147,8 @@ exports.getAdminStats = async () => {
             COUNT(*) FILTER (WHERE role = 'teacher' AND status = 'active') AS teachers,
 
             -- CONSULTATIONS
-            COUNT(*) FILTER (WHERE status = 'done') AS consultations_done,
-            COUNT(*) FILTER (WHERE status = 'planned') AS consultations_planned,
+            (SELECT COUNT(*) FROM consultation WHERE status = 'done') AS consultations_done,
+            (SELECT COUNT(*) FROM consultation WHERE status = 'pending') AS consultations_planned,
 
             -- TEST RESULTS
             (SELECT COUNT(*) FROM test_result) AS test_results,
