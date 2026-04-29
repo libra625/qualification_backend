@@ -20,7 +20,7 @@ const corsOptions = {
 router.use(cors(corsOptions));
 router.use(auth);
 
-router.post('/', checkRole('teacher', 'student'), Controller.submitTest);
+router.post('/submit', checkRole('teacher', 'student'), Controller.submitTest);
 
 router.get('/', checkRole('psychologist'), Controller.getResult);
 

@@ -25,7 +25,7 @@ module.exports = (req, res, next) => {
         const remainingTokenTime = decoded.exp - Math.floor(Date.now() / 1000);
 
         if (remainingTokenTime < 10 * 60) {
-            const token = jwt.sign({ id: decoded.id }, config.jwtSecret, { expiresIn: '1h' })
+            const token = jwt.sign({ userId: decoded.id }, config.jwtSecret, { expiresIn: '1h' })
             res.setHeader('authorization', `Bearer ${token}`);
         }
         next();

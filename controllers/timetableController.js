@@ -22,12 +22,11 @@ exports.createTimetable = async (req, res) => {
             day_of_week,
             start_time,
             end_time,
-            frequency,
             is_online,
             link
         } = req.body;
 
-        if (!day_of_week || start_time== null || end_time== null || frequency== null || is_online== null) {
+        if (!day_of_week || start_time== null || end_time== null || is_online== null) {
             return res.status(400).json({
                 message: "Missing required fields"
             });
@@ -39,13 +38,6 @@ exports.createTimetable = async (req, res) => {
             });
         }
 
-        if (start_time >= end_time) {
-            return res.status(400).json({
-                message: "start_time must be less than end_time"
-            });
-        }
-
-        // 🌐 Link rule
         if (is_online && !link) {
             return res.status(400).json({
                 message: "link is required for online sessions"
@@ -56,7 +48,6 @@ exports.createTimetable = async (req, res) => {
             day_of_week: day_of_week.toLowerCase(),
             start_time,
             end_time,
-            frequency,
             is_online,
             link: is_online ? link : null
         });
@@ -87,20 +78,13 @@ exports.updateTimetable = async (req, res) => {
             day_of_week,
             start_time,
             end_time,
-            frequency,
             is_online,
             link
         } = req.body;
 
-        if (!day_of_week || start_time == null || end_time == null || frequency == null || is_online == null) {
+        if (!day_of_week || start_time == null || end_time == null || is_online == null) {
             return res.status(400).json({
                 message: "Missing required fields"
-            });
-        }
-
-        if (start_time >= end_time) {
-            return res.status(400).json({
-                message: "start_time must be less than end_time"
             });
         }
 
@@ -114,7 +98,6 @@ exports.updateTimetable = async (req, res) => {
             day_of_week: day_of_week.toLowerCase(),
             start_time,
             end_time,
-            frequency,
             is_online,
             link: is_online ? link : null
         });

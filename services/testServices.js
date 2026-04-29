@@ -128,14 +128,30 @@ exports.assignToUser = async (user_id, test_id) => {
 
 // Assign test to CLASS
 
-exports.assignToClass = async (class_id, test_id) => {
+exports.assignToClass = async (class_number, class_letter, test_id) => {
     const client = await pool.connect();
 
     try {
         await client.query('BEGIN');
 
+        // 1. FIND CLASS ID
+        const classResult = await client.query(
+            `SELECT class_id
+             FROM class
+             WHERE class_number = $1 AND class_letter = $2`,
+            [class_number, class_letter]
+        );
+
+        if (!classResult.rows.length) {
+            throw new Error('Class not found');
+        }
+
+        const class_id = classResult.rows[0].class_id;
+
+        // 2. GET CARDS
         const cards = await TestModel.getCardsByClass(client, class_id);
 
+        // 3. ASSIGN TEST
         for (const c of cards) {
             await TestModel.assignTest(
                 client,
@@ -147,7 +163,8 @@ exports.assignToClass = async (class_id, test_id) => {
         await client.query('COMMIT');
 
         return {
-            class_id,
+            class_number,
+            class_letter,
             test_id,
             assigned: cards.length
         };

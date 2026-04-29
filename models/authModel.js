@@ -49,7 +49,7 @@ exports.createUser = async (
              ON CONFLICT (class_number, class_letter)
              DO UPDATE SET class_number = EXCLUDED.class_number
              RETURNING class_id`,
-            [classNumber, classLetter]
+            [classNumber, classLetter.toUpperCase()]
         );
 
         const classId = classResult.rows[0].class_id;

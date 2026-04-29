@@ -4,7 +4,8 @@ const Service = require('../services/testResultServices');
 // SUBMIT TEST
 exports.submitTest = async (req, res) => {
     try {
-        const { user_id, test_id, answers } = req.body;
+        const user_id = req.userId;
+        const { test_id, answers } = req.body;
 
         if (!user_id || !test_id || !answers?.length) {
             return res.status(400).json({
@@ -55,7 +56,7 @@ exports.getResult = async (req, res) => {
 // GET PENDING TESTS
 exports.getPendingTests = async (req, res) => {
     try {
-        const { user_id } = req.query;
+        const user_id = req.userId;
 
         if (!user_id) {
             return res.status(400).json({

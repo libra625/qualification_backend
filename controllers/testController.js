@@ -107,15 +107,19 @@ exports.assignToUser = async (req, res) => {
 // Assign test to CLASS
 exports.assignToClass = async (req, res) => {
     try {
-        const { class_id, test_id } = req.body;
+        const { class_number, class_letter, test_id } = req.body;
 
-        if (!class_id || !test_id) {
+        if (!class_number || !class_letter || !test_id) {
             return res.status(400).json({
-                message: 'class_id and test_id required'
+                message: 'class_number, class_letter and test_id required'
             });
         }
 
-        const result = await TestService.assignToClass(class_id, test_id);
+        const result = await TestService.assignToClass(
+            class_number,
+            class_letter,
+            test_id
+        );
 
         res.status(201).json({
             message: `Test assigned to class`,
