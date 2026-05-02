@@ -5,7 +5,7 @@ const sendMail = require("../utils/mailer");
 
 const sendEmail = async (email, message) => {
     await sendMail({
-        to: "18.12.17.moyo@gmail.com",
+        to: "",
         subject: "Low test result",
         text: `This is a test email informing u of your ${message} `,
         html: '<h1>This is a test email informing u of your ${message}</h1>'
@@ -16,6 +16,7 @@ const sendEmail = async (email, message) => {
 // SUBMIT TEST
 exports.submitTest = async (data) => {
     const { user_id, test_id, answers } = data;
+    console.log(user_id)
 
     const client = await pool.connect();
 

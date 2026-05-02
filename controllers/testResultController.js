@@ -13,6 +13,8 @@ exports.submitTest = async (req, res) => {
             });
         }
 
+        req.body.user_id = req.userId;
+
         const result = await Service.submitTest(req.body);
 
         res.status(201).json({

@@ -10,13 +10,35 @@ exports.getPendingByUser = async (userId) => {
 };
 
 exports.createConsultation = async (data) => {
-    const { time, date, is_online, link, user_id } = data;
+    const {
+        time,
+        day_of_week,
+        is_online,
+        link,
+        user_id
+    } = data;
 
     const result = await pool.query(
-        `INSERT INTO consultation (time, date, is_online, link, user_id, psychologist_id, status)
-     VALUES ($1, $2, $3, $4, $5, 1, 'pending')
-     RETURNING *`,
-        [time, date, is_online, link, user_id]
+        `
+            INSERT INTO consultation (
+                time,
+                day_of_week,
+                is_online,
+                link,
+                user_id,
+                psychologist_id,
+                status
+            )
+            VALUES ($1, $2, $3, $4, $5, 1, 'pending')
+            RETURNING *
+        `,
+        [
+            time,
+            day_of_week,
+            is_online,
+            link,
+            user_id
+        ]
     );
 
     return result.rows[0];

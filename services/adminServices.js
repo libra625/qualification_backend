@@ -29,7 +29,7 @@ exports.createUser = async (data) => {
             classId = await getOrCreateClass(
                 client,
                 data.class_number,
-                data.class_letter
+                data.class_letter.toUpperCase()
             );
         }
         // HASH PASSWORD HERE

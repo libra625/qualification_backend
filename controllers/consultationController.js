@@ -1,4 +1,5 @@
 const consultationServices = require('../services/consultationServices');
+const {validDays} = require("../utils/validDays");
 
 exports.getUserPending = async (req, res) => {
     try {
@@ -12,28 +13,56 @@ exports.getUserPending = async (req, res) => {
 
 exports.createConsultation = async (req, res) => {
     try {
-        const { date, is_online } = req.body;
+        const {
+            day_of_week,
+            time,
+            is_online,
+            link
+        } = req.body;
 
-        let { time } = req.body;
+        if (!day_of_week || time == null || is_online == null) {
+            console.log(req.body)
+            return res.status(400).json({
+                message: "Missing required fields"
+            });
+        }
+
+        if (!validDays.includes(day_of_week)) {
+            return res.status(400).json({ error: "Invalid day_of_week" });
+        }
 
         if (!time) {
             return res.status(400).json({ error: 'time is required' });
-        }
-
-        if (!date) {
-            return res.status(400).json({ error: 'date is required' });
         }
 
         if (typeof is_online !== 'boolean') {
             return res.status(400).json({ error: 'is_online is required' });
         }
 
-        // convert number → HH:MM string
-        const hours = Math.floor(time / 100);
-        const minutes = time % 100;
+        if (is_online && !link) {
+            return res.status(400).json({
+                message: "link is required for online sessions"
+            });
+        }
 
-        if (hours > 23 || minutes > 59) {
-            return res.status(400).json({ error: 'Invalid time value' });
+        // normalize time (supports "10:30", "10:30:00")
+        let normalizedTime = time;
+
+        if (typeof normalizedTime === "string" && normalizedTime.length === 8) {
+            normalizedTime = normalizedTime.slice(0, 5);
+        }
+
+        const [hours, minutes] = normalizedTime.split(":").map(Number);
+
+        if (
+            Number.isNaN(hours) ||
+            Number.isNaN(minutes) ||
+            hours > 23 ||
+            minutes > 59
+        ) {
+            return res.status(400).json({
+                message: "Invalid time value"
+            });
         }
 
         const formattedTime =
@@ -42,9 +71,11 @@ exports.createConsultation = async (req, res) => {
             String(minutes).padStart(2, '0');
 
 
-        const data = await consultationServices.createConsultation({
-            ...req.body,
+        const result = await consultationServices.createConsultation({
+            day_of_week: day_of_week.toLowerCase(),
             time: formattedTime,
+            is_online,
+            link: is_online ? link : null,
             user_id: req.userId,
         });
 

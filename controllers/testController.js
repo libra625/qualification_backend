@@ -84,6 +84,7 @@ exports.updateTest = async (req, res) => {
 exports.assignToUser = async (req, res) => {
     try {
         const { user_id, test_id } = req.body;
+        console.log(user_id, test_id)
 
         if (!user_id || !test_id) {
             return res.status(400).json({

@@ -18,7 +18,7 @@ const corsOptions = {
 
 router.use(cors(corsOptions));
 router.use(auth);
-
+//psychologist
 router.get("/", checkRole('psychologist'), electronicCardController.getAllCards);
 router.get("/stats", checkRole('psychologist'), electronicCardController.getStatistics);
 router.get("/:id", checkRole('psychologist'), electronicCardController.getCardById);

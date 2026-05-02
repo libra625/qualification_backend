@@ -8,9 +8,9 @@ const consultationController = require('../controllers/consultationController')
 
 const corsOptions = {
     origin: 'http://localhost:5173',  // Разрешаем запросы с этого домена
-    methods: ['GET', 'POST'],  // Разрешаем только GET-запросы
+    methods: ['GET', 'POST', 'PATCH'],  // Разрешаем только GET-запросы
     credentials: true,  // Разрешаем отправку cookies
-    allowedHeaders: ['Content-Type'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Content-Type'],
     preflightContinue: false,
     optionsSuccessStatus: 200,
